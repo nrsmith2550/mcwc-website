@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mountain Cat Wrestling Club — Website Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap">
+<style>
+:root{
+  --navy:#13254b; --navy-2:#0c1a38; --blue:#003594; --gold:#ffb81c; --gold-d:#d99a0b; --gold-soft:#fff3d6;
+  --ink:#141b2b; --ink-soft:#56607a; --paper:#f5f6f9; --card:#fff; --line:#dfe3ec;
+  --head:"Barlow Condensed",Impact,sans-serif; --sans:"Barlow",system-ui,sans-serif; --r:10px;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:var(--sans);color:var(--ink);background:var(--paper);line-height:1.55;font-size:16.5px}
+a{color:var(--blue)}
+h1,h2,h3{font-family:var(--head);font-weight:700;line-height:1.02;margin:0 0 .45em;text-transform:uppercase;letter-spacing:.01em}
+h1{font-size:clamp(2.6rem,6vw,4.6rem)}
+h2{font-size:clamp(1.9rem,3.4vw,2.7rem)}
+h3{font-size:1.35rem}
+p{margin:0 0 1em}
+button{font:inherit;cursor:pointer}
+.wrap{max-width:1140px;margin:0 auto;padding:0 24px}
+.eyebrow{font-family:var(--head);font-size:.95rem;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);font-weight:700;margin-bottom:.5em}
+.on-dark .eyebrow,.eyebrow.gold{color:var(--gold)}
+.muted{color:var(--ink-soft)}
+
+.proto{background:#05070d;color:#d7dcea;font-size:.82rem}
+.proto .wrap{display:flex;gap:16px;align-items:center;justify-content:space-between;padding-top:7px;padding-bottom:7px;flex-wrap:wrap}
+.proto select{background:#1c2438;color:#fff;border:1px solid #33405e;border-radius:6px;padding:3px 6px;font:inherit}
+
+header.site{background:var(--navy-2);color:#fff;position:sticky;top:0;z-index:20;border-bottom:3px solid var(--gold)}
+header.site .wrap{display:flex;align-items:center;justify-content:space-between;height:70px;gap:16px}
+.brand{display:flex;align-items:center;gap:12px;color:#fff;text-decoration:none}
+.brand b{font-family:var(--head);font-size:1.45rem;font-weight:800;display:block;line-height:1;letter-spacing:.03em;text-transform:uppercase}
+.brand small{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+nav.main{display:flex;gap:2px;align-items:center}
+nav.main a{color:#d7dcea;text-decoration:none;padding:8px 12px;border-radius:6px;font-family:var(--head);font-weight:600;font-size:1.08rem;letter-spacing:.06em;text-transform:uppercase}
+nav.main a:hover{color:#fff}
+nav.main a.on{color:var(--gold)}
+.cartbtn{background:transparent;border:1.5px solid rgba(255,255,255,.35);color:#fff;border-radius:999px;padding:6px 14px;display:flex;gap:8px;align-items:center;margin-left:8px;font-family:var(--head);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.cartbtn .n{background:var(--gold);color:var(--navy-2);border-radius:999px;min-width:20px;height:20px;font-size:.78rem;display:inline-grid;place-items:center;padding:0 6px;font-family:var(--sans);font-weight:700}
+.btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:6px;padding:12px 22px;font-family:var(--head);font-weight:700;font-size:1.08rem;letter-spacing:.06em;text-transform:uppercase;text-decoration:none}
+.btn.primary{background:var(--gold);color:var(--navy-2)}
+.btn.primary:hover{background:var(--gold-d)}
+.btn.navy{background:var(--navy);color:#fff}
+.btn.navy:hover{background:var(--blue)}
+.btn.ghost{background:transparent;color:var(--navy);border:2px solid var(--navy)}
+.btn.outline-light{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.6)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.menu-toggle{display:none;background:none;border:0;color:#fff;font-size:1.6rem}
+@media (max-width:900px){
+  nav.main{display:none;position:absolute;top:73px;left:0;right:0;background:var(--navy-2);flex-direction:column;align-items:stretch;padding:8px 16px 16px}
+  nav.main.open{display:flex}
+  .menu-toggle{display:block}
+}
+
+.hero{background:var(--navy);color:#fff;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,.025) 0 18px,transparent 18px 36px)}
+.hero .wrap{padding-top:90px;padding-bottom:150px;position:relative;z-index:1}
+.hero h1 span{color:var(--gold)}
+.hero p.lead{font-size:1.2rem;max-width:600px;color:#dbe1ef}
+.hero svg.mtn{position:absolute;bottom:0;left:0;width:100%;height:170px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:var(--navy-2);color:#fff;border-top:1px solid rgba(255,255,255,.08)}
+.stats div{padding:26px 22px;border-right:1px solid rgba(255,255,255,.08)}
+.stats b{display:block;font-family:var(--head);font-size:2.4rem;color:var(--gold);line-height:1}
+.stats span{font-size:.9rem;color:#c9d0e2}
+@media (max-width:800px){.stats{grid-template-columns:1fr 1fr}}
+.section{padding:76px 0}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
+@media (max-width:860px){.grid3,.grid2{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:26px}
+.card.topbar{border-top:4px solid var(--gold)}
+.band{background:#e9ecf3}
+.cta-band{background:var(--navy);color:#fff;border-radius:12px;padding:44px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;border-left:8px solid var(--gold)}
+.cta-band p{color:#c9d0e2;margin:0}
+
+.store-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:28px}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 15px;font-size:.9rem;font-weight:500}
+.chip.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:24px}
+.product{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column}
+.product .art{aspect-ratio:1/1;display:grid;place-items:center}
+.product .body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:10px;flex:1}
+.product .row{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.product h3{font-size:1.25rem;margin:0}
+.price{font-weight:600;font-size:1.05rem}
+.product select{border:1px solid var(--line);border-radius:6px;padding:8px;font:inherit;background:#fff}
+.product .add{margin-top:auto;justify-content:center}
+.tag{display:inline-block;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+
+.scrim{position:fixed;inset:0;background:rgba(8,14,30,.5);z-index:40;display:none}
+.scrim.open{display:block}
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(420px,100%);background:var(--card);z-index:41;transform:translateX(100%);transition:transform .25s ease;display:flex;flex-direction:column}
+.drawer.open{transform:none}
+.drawer header{padding:20px 22px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.drawer .items{flex:1;overflow:auto;padding:12px 22px}
+.drawer footer{border-top:1px solid var(--line);padding:18px 22px}
+.line-item{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.line-item .thumb{width:54px;height:54px;border-radius:8px;flex:none;overflow:hidden;display:grid;place-items:center}
+.line-item .grow{flex:1}
+.qty{display:flex;align-items:center;border:1px solid var(--line);border-radius:999px}
+.qty button{background:none;border:0;width:28px;height:28px}
+.x{background:none;border:0;font-size:1.5rem;line-height:1;color:var(--ink-soft)}
+
+label{display:block;font-weight:600;font-size:.9rem;margin-bottom:6px}
+input[type=text],textarea,select.f{width:100%;border:1px solid var(--line);border-radius:8px;padding:11px 12px;font:inherit;background:#fff;color:var(--ink)}
+textarea{min-height:220px;resize:vertical;line-height:1.6}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--blue);outline-offset:1px}
+.field{margin-bottom:18px}
+
+.page-hero{background:var(--navy);color:#fff;padding:56px 0 48px;position:relative;overflow:hidden}
+.page-hero::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,.025) 0 18px,transparent 18px 36px)}
+.page-hero .wrap{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;position:relative}
+.page-hero p{color:#c9d0e2;margin:.4em 0 0}
+.feed{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:36px;padding:44px 0 80px}
+@media (max-width:860px){.feed{grid-template-columns:1fr}}
+.post{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:26px 28px;margin-bottom:20px;border-left:4px solid var(--gold)}
+.post .meta{display:flex;gap:10px;align-items:center;font-size:.88rem;color:var(--ink-soft);margin-bottom:10px;flex-wrap:wrap}
+.cat{background:var(--navy);color:var(--gold);border-radius:4px;padding:2px 9px;font-size:.74rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.post h3{font-size:1.7rem;margin-bottom:.35em}
+.post .text{white-space:pre-wrap;font-size:1.03rem}
+.post .text.clamp{display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden}
+.linkbtn{background:none;border:0;color:var(--blue);padding:0;font-weight:600}
+.side .card{margin-bottom:18px}
+.empty{border:1.5px dashed #c6ccda;border-radius:var(--r);padding:40px;text-align:center;color:var(--ink-soft)}
+.notice{background:var(--gold-soft);border:1px solid #f1d28a;border-radius:8px;padding:12px 14px;font-size:.92rem;margin-bottom:18px}
+.gate{max-width:1000px;margin:0 auto;padding:60px 24px 90px;text-align:center}
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin:32px 0 10px;text-align:left}
+@media (max-width:800px){.tiers{grid-template-columns:1fr}}
+.tier{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:28px;display:flex;flex-direction:column}
+.tier.feat{background:var(--navy);color:#fff;border:0;box-shadow:0 0 0 3px var(--gold)}
+.tier.feat .muted{color:#c9d0e2}
+.tier .lvl{font-family:var(--head);font-size:1.7rem;font-weight:800;text-transform:uppercase;line-height:1}
+.tier .amt{font-family:var(--head);font-size:2.6rem;font-weight:700;margin:6px 0}
+.tier.feat .amt{color:var(--gold)}
+.tier ul{padding-left:18px;margin:10px 0 22px;flex:1}
+.tier li{margin-bottom:6px}
+.tier .btn{justify-content:center}
+
+.composer{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px;padding:40px 0 80px}
+@media (max-width:900px){.composer{grid-template-columns:1fr}}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.events{display:grid;gap:14px}
+.event{display:flex;gap:18px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 20px}
+.event .date{background:var(--navy);color:var(--gold);border-radius:8px;width:64px;height:64px;display:grid;place-items:center;text-align:center;font-family:var(--head);font-weight:700;line-height:1;flex:none;font-size:.95rem}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120px);background:var(--navy-2);color:#fff;padding:12px 20px;border-radius:999px;z-index:60;transition:transform .25s,opacity .25s;font-size:.95rem;opacity:0;pointer-events:none;border:1px solid var(--gold)}
+.toast.show{transform:translateX(-50%);opacity:1}
+footer.site{background:var(--navy-2);color:#c3cadc;padding:48px 0;font-size:.92rem;border-top:3px solid var(--gold)}
+footer.site .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+footer.site a{color:#fff}
+.modal{position:fixed;inset:0;z-index:50;display:none;place-items:center;background:rgba(8,14,30,.55);padding:20px}
+.modal.open{display:grid}
+.modal .box{background:var(--card);border-radius:12px;max-width:460px;width:100%;padding:28px}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+
+<div class="proto">
+  <div class="wrap">
+    <span><strong>Prototype</strong> — for review. Middle membership levels, store prices and checkout are placeholders.</span>
+    <span>Preview as
+      <select id="roleSel" aria-label="Preview as">
+        <option value="visitor">Visitor (not a member)</option>
+        <option value="member">Paid club member</option>
+        <option value="staff">Club staff / board</option>
+      </select>
+    </span>
+  </div>
+</div>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="#home">
+      <svg width="44" height="44" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="21" fill="#13254b" stroke="#ffb81c" stroke-width="2"/><path d="M6 31l9-13 5 7 6-11 12 17z" fill="#ffb81c"/><path d="M26 14l3 5-3-1-3 2z" fill="#fff"/></svg>
+      <span><b>Mountain Cat Wrestling Club</b><small>Supporting Pitt-Johnstown Wrestling</small></span>
+    </a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu">☰</button>
+    <nav class="main" id="nav">
+      <a href="#home" data-r="home">Home</a>
+      <a href="#about" data-r="about">About</a>
+      <a href="#join" data-r="join">Join</a>
+      <a href="#alumni" data-r="alumni">Members</a>
+      <a href="#store" data-r="store">Store</a>
+      <a href="#donate" data-r="donate">Donate</a>
+      <button class="cartbtn" id="cartBtn" aria-label="Open cart">Cart <span class="n" id="cartCount">0</span></button>
+    </nav>
+  </div>
+</header>
+
+<main id="app">
+
+<!-- HOME -->
+<section data-view="home">
+  <div class="hero on-dark">
+    <div class="wrap">
+      <div class="eyebrow">Mountain Cat Wrestling Club · Johnstown, PA</div>
+      <h1>Built by legends.<br><span>Backed by the club.</span></h1>
+      <p class="lead">The Mountain Cat Wrestling Club is a nonprofit of alumni, families and fans who support Pitt-Johnstown wrestling, keeping a Division II national power strong for the next generation.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:28px">
+        <a class="btn primary" href="#join">Become a member</a>
+        <a class="btn outline-light" href="#store">Shop club gear</a>
+      </div>
+    </div>
+    <svg class="mtn" viewBox="0 0 1440 170" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 170 L0 110 L180 40 L330 120 L520 20 L700 115 L860 55 L1040 125 L1220 35 L1440 105 L1440 170Z" fill="#1c3366"/>
+      <path d="M0 170 L0 140 L240 90 L420 150 L640 80 L860 150 L1080 95 L1300 150 L1440 120 L1440 170Z" fill="#0c1a38"/>
+    </svg>
+  </div>
+  <div class="stats">
+    <div><b>1996 · 1999</b><span>NCAA DII Dual Meet National Champions</span></div>
+    <div><b>#1</b><span>Coach Pat Pecora: all-time winningest coach in college wrestling (2020)</span></div>
+    <div><b>2022</b><span>Club launched at the annual golf outing</span></div>
+    <div><b>7</b><span>Membership levels, Tom Cat to Mountain Cat</span></div>
+  </div>
+  <div class="section">
+    <div class="wrap">
+      <div class="eyebrow">What your membership does</div>
+      <h2>Supporting the program</h2>
+      <div class="grid3" style="margin-top:28px">
+        <div class="card topbar"><h3>The wrestling room</h3><p class="muted" style="margin:0">A goal of the club is a separate entrance to the wrestling room in the Sports Center, possibly with a lobby and study area.</p></div>
+        <div class="card topbar"><h3>The student-athletes</h3><p class="muted" style="margin:0">Support for the people who wear the singlet: travel, training, recruiting and the things a budget doesn't cover.</p></div>
+        <div class="card topbar"><h3>The legacy</h3><p class="muted" style="margin:0">Protecting what Coach Pecora built since 1976, and carrying it forward under head coach Tyler Reinhart.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="section band">
+    <div class="wrap grid2">
+      <div>
+        <div class="eyebrow">Members only</div>
+        <h2>The Member Feed</h2>
+        <p class="muted">Paid members get club news, alumni updates, event announcements and insider notes from the program, posted by the club.</p>
+        <a class="btn navy" href="#alumni">Go to the member feed</a>
+      </div>
+      <div class="card" id="homeLatest">
+        <div class="eyebrow">Latest post</div>
+        <div id="homeLatestBody" class="muted">Loading…</div>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="wrap">
+      <div class="cta-band">
+        <div><h2 style="margin-bottom:.2em">Rep the Mountain Cats</h2><p>Tees, hoodies, quarter-zips, hats and more. Every purchase supports the club.</p></div>
+        <a class="btn primary" href="#store">Shop the store</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section data-view="about" hidden>
+  <div class="page-hero on-dark"><div class="wrap"><div><div class="eyebrow">About the club</div><h1 style="margin:0">Our Mission</h1></div></div></div>
+  <div class="section"><div class="wrap grid2" style="align-items:start">
+    <div>
+      <p style="font-size:1.15rem">The Mountain Cat Wrestling Club is a nonprofit organization formed to support the Pitt-Johnstown wrestling program and the student-athletes in it.</p>
+      <p class="muted">The club was announced at the annual golf outing in August 2022. <em>Placeholder — replace with your mission statement, history and board list.</em></p>
+    </div>
+    <div class="card topbar">
+      <h3>Upcoming events</h3>
+      <div class="events" style="margin-top:12px">
+        <div class="event"><div class="date">TBD</div><div><b>Alumni Night</b><div class="muted" style="font-size:.9rem">Home dual · Sports Center</div></div></div>
+        <div class="event"><div class="date">AUG</div><div><b>Annual Golf Outing</b><div class="muted" style="font-size:.9rem">Placeholder date &amp; course</div></div></div>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<!-- JOIN (membership levels) -->
+<section data-view="join" hidden>
+  <div class="page-hero on-dark"><div class="wrap"><div><div class="eyebrow">Annual membership</div><h1 style="margin:0">Join the Club</h1><p>Every level includes access to the Member Feed.</p></div></div></div>
+  <div class="gate" id="tiersA"></div>
+</section>
+
+<!-- DONATE -->
+<section data-view="donate" hidden>
+  <div class="page-hero on-dark"><div class="wrap"><div><div class="eyebrow">Support the club</div><h1 style="margin:0">Donate</h1></div></div></div>
+  <div class="section"><div class="wrap" style="max-width:720px">
+    <p class="muted">Placeholder — one-time gifts and planned giving connect here at launch.</p>
+  </div></div>
+</section>
+
+<!-- STORE -->
+<section data-view="store" hidden>
+  <div class="page-hero on-dark"><div class="wrap"><div><div class="eyebrow">Official club store</div><h1 style="margin:0">Shop</h1><p>Members save 10% automatically.</p></div></div></div>
+  <div class="section" style="padding-top:40px">
+    <div class="wrap">
+      <div class="store-head"><div class="filters" id="filters"></div></div>
+      <div class="products" id="products"></div>
+    </div>
+  </div>
+</section>
+
+<!-- MEMBER FEED -->
+<section data-view="alumni" hidden>
+  <div class="page-hero on-dark">
+    <div class="wrap">
+      <div><div class="eyebrow">Members only</div><h1 style="margin:0">Member Feed</h1><p>News and updates from the Mountain Cat Wrestling Club.</p></div>
+      <a class="btn primary" href="#alumni-post" id="newPostBtn" hidden>+ New post</a>
+    </div>
+  </div>
+  <div id="gate" hidden>
+    <div class="gate" id="tiersB"></div>
+  </div>
+  <div class="wrap" id="feedWrap" hidden>
+    <div class="feed">
+      <div>
+        <div class="filters" id="catFilters" style="margin-bottom:20px"></div>
+        <div id="feedStatus"></div>
+        <div id="feedList"></div>
+      </div>
+      <aside class="side">
+        <div class="card topbar"><div class="eyebrow">Your membership</div><p style="margin:0" id="memberLine">—</p></div>
+        <div class="card"><div class="eyebrow">Member perk</div><p style="margin:0">10% off in the club store. <a href="#store">Shop now →</a></p></div>
+        <div class="card"><div class="eyebrow">Follow the team</div><p style="margin:0" class="muted">Schedule, results and live stats are on the Pitt-Johnstown athletics site.</p></div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- NEW POST -->
+<section data-view="alumni-post" hidden>
+  <div class="page-hero on-dark">
+    <div class="wrap">
+      <div><div class="eyebrow">Club staff · Member feed</div><h1 style="margin:0">New Post</h1><p>Type it, publish it. It goes to the top of the Member Feed right away.</p></div>
+      <a class="btn outline-light" href="#alumni">← Back to feed</a>
+    </div>
+  </div>
+  <div class="wrap">
+    <div id="notStaff" class="gate" hidden><h2>Staff only</h2><p class="muted">Only club staff and board members can publish to the Member Feed.</p></div>
+    <div class="composer" id="composer" hidden>
+      <form id="postForm" autocomplete="off">
+        <div id="composeNotice"></div>
+        <div class="field"><label for="pTitle">Title</label><input type="text" id="pTitle" maxlength="140" placeholder="e.g. Alumni Night tickets now available" required></div>
+        <div class="row2">
+          <div class="field"><label for="pCat">Category</label><select class="f" id="pCat"></select></div>
+          <div class="field"><label for="pAuthor">Posted by</label><input type="text" id="pAuthor" maxlength="80" placeholder="e.g. MCWC Board"></div>
+        </div>
+        <div class="field">
+          <label for="pBody">Post</label>
+          <textarea id="pBody" maxlength="8000" placeholder="Write your post…" required></textarea>
+          <div class="muted" style="font-size:.8rem;text-align:right" id="pCount">0 / 8000</div>
+        </div>
+        <button class="btn primary" type="submit" id="publishBtn">Publish to feed</button>
+        <button class="btn ghost" type="button" id="clearBtn">Clear</button>
+      </form>
+      <div>
+        <div class="eyebrow">Preview</div>
+        <article class="post">
+          <div class="meta"><span class="cat" id="pvCat">Club news</span><span id="pvMeta">MCWC · just now</span></div>
+          <h3 id="pvTitle" class="muted">Your title</h3>
+          <div class="text muted" id="pvBody">Your post will look like this on the feed.</div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div><b style="font-family:var(--head);font-size:1.35rem;color:#fff;text-transform:uppercase;letter-spacing:.03em">Mountain Cat Wrestling Club</b><br>Nonprofit support for Pitt-Johnstown wrestling · Johnstown, PA</div>
+    <div><a href="#about">About</a> · <a href="#join">Join</a> · <a href="#alumni">Members</a> · <a href="#store">Store</a> · <a href="#donate">Donate</a></div>
+  </div>
+</footer>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="Cart">
+  <header><h3 style="margin:0">Your cart</h3><button class="x" id="closeCart" aria-label="Close">×</button></header>
+  <div class="items" id="cartItems"></div>
+  <footer>
+    <div style="display:flex;justify-content:space-between;margin-bottom:4px;font-weight:600"><span>Subtotal</span><span id="subtotal">$0</span></div>
+    <div class="muted" id="discountLine" style="font-size:.85rem;margin-bottom:12px"></div>
+    <button class="btn primary" style="width:100%;justify-content:center" id="checkoutBtn">Checkout</button>
+  </footer>
+</aside>
+<div class="modal" id="modal"><div class="box" id="modalBox"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+"use strict";
+const $=s=>document.querySelector(s);
+const el=(tag,attrs={},...kids)=>{const e=document.createElement(tag);for(const[k,v]of Object.entries(attrs)){if(k==="class")e.className=v;else if(k==="text")e.textContent=v;else if(k.startsWith("on"))e.addEventListener(k.slice(2),v);else e.setAttribute(k,v);}for(const k of kids)if(k!=null)e.append(k);return e;};
+const money=n=>"$"+n.toLocaleString(undefined,{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2});
+function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove("show"),2600);}
+
+/* ---------- membership levels ---------- */
+function renderTiers(target,heading){
+  const box=$(target);
+  const mk=(cls,lvl,amt,sub,perks,btnCls,join)=>{
+    const t=el("div",{class:"tier"+cls},el("div",{class:"lvl",text:lvl}),el("div",{class:"amt",text:amt}),el("div",{class:"muted",text:sub}),
+      el("ul",{},...perks.map(p=>el("li",{text:p}))));
+    if(join)t.append(el("button",{class:"btn "+btnCls,text:"Join now",onclick:()=>joinFlow(join)}));
+    return t;
+  };
+  box.replaceChildren(
+    heading?el("h2",{text:heading}):null,
+    heading?el("p",{class:"muted",text:"The Member Feed is for paid club members. Pick a level to join."}):null,
+    el("div",{class:"tiers"},
+      mk("","Tom Cat","$60","per year · entry level",["Access to the Member Feed","Member pricing in the store","Club newsletter"],"navy","Tom Cat"),
+      mk("","Levels 2–6","$ — ","five levels in between",["Add each level's name, price and perks here","Perks build on the level below"],"",null),
+      mk(" feat","Mountain Cat","$3,500","per year · top level",["Everything in every level","Recognition as a top supporter","Placeholder: add your top-level perks"],"primary","Mountain Cat")
+    ),
+    el("p",{class:"muted",style:"font-size:.88rem;margin-top:14px"},document.createTextNode("Already a member? "),el("button",{class:"linkbtn",text:"Sign in",onclick:()=>joinFlow("Tom Cat")}))
+  );
+}
+function joinFlow(lvl){
+  showModal("Join as "+lvl+" (prototype)","On the live site this step takes the annual dues payment and creates the member's login. In this preview, continuing unlocks the Member Feed.",[["Continue",()=>{tier=lvl;role="member";$("#roleSel").value="member";closeModal();location.hash="#alumni";renderAll();toast("Welcome to the club, "+lvl+"!");}],["Cancel",closeModal]]);
+}
+
+/* ---------- product art ---------- */
+const N="#13254b",G="#ffb81c",W="#ffffff",GR="#9aa3b5";
+function mark(cx,cy,s,col,acc){return `<g transform="translate(${cx} ${cy}) scale(${s})"><path d="M-22 10l10-15 6 8 7-13 21 20z" fill="${acc}"/><text x="0" y="28" text-anchor="middle" font-family="Barlow Condensed,Impact,sans-serif" font-weight="800" font-size="15" fill="${col}" letter-spacing="1">MCWC</text></g>`;}
+const ART={
+  tee:(bg,fg,ac)=>`<svg viewBox="0 0 200 200" width="70%"><path d="M60 40l20-10h40l20 10 30 22-16 22-14-8v94H60V76l-14 8-16-22z" fill="${bg}"/>${mark(100,92,1.25,fg,ac)}</svg>`,
+  hoodie:(bg,fg,ac)=>`<svg viewBox="0 0 200 200" width="70%"><path d="M70 36q30-22 60 0l32 22 14 70-18 6-10-50v90H52V84l-10 50-18-6 14-70z" fill="${bg}"/><path d="M78 38q22 26 44 0" fill="none" stroke="${fg}" stroke-opacity=".4" stroke-width="3"/><rect x="72" y="140" width="56" height="22" rx="6" fill="none" stroke="${fg}" stroke-opacity=".3" stroke-width="2"/>${mark(100,98,1.1,fg,ac)}</svg>`,
+  qzip:(bg,fg,ac)=>`<svg viewBox="0 0 200 200" width="70%"><path d="M72 34h56l34 22 14 72-18 6-10-50v90H52V84l-10 50-18-6 14-72z" fill="${bg}"/><path d="M100 34v40" stroke="${ac}" stroke-width="3"/><path d="M84 34l16 10 16-10" fill="none" stroke="${fg}" stroke-opacity=".5" stroke-width="3"/>${mark(130,100,.7,fg,ac)}</svg>`,
+  cap:(bg,fg,ac)=>`<svg viewBox="0 0 200 200" width="70%"><path d="M40 122q0-66 60-66t60 66z" fill="${bg}"/><path d="M40 122q70 6 130-4l10 10q-80 14-150 4z" fill="${bg}" opacity=".85"/>${mark(100,88,1,fg,ac)}</svg>`,
+  beanie:(bg,fg,ac)=>`<svg viewBox="0 0 200 200" width="62%"><circle cx="100" cy="42" r="14" fill="${ac}"/><path d="M50 130q0-80 50-80t50 80z" fill="${bg}"/><rect x="46" y="124" width="108" height="34" rx="6" fill="${bg}" stroke="${ac}" stroke-width="3"/>${mark(100,92,.85,fg,ac)}</svg>`,
+  tumbler:(bg,fg,ac)=>`<svg viewBox="0 0 200 200" width="52%"><rect x="66" y="28" width="68" height="14" rx="4" fill="${GR}"/><path d="M64 42h72l-8 132H72z" fill="${bg}"/>${mark(100,100,1,fg,ac)}</svg>`,
+  decal:(bg,fg,ac)=>`<svg viewBox="0 0 200 200" width="58%"><rect x="30" y="56" width="140" height="88" rx="10" fill="${bg}" stroke="${W}" stroke-width="5"/>${mark(100,92,1.3,fg,ac)}</svg>`,
+  polo:(bg,fg,ac)=>`<svg viewBox="0 0 200 200" width="70%"><path d="M60 40l22-10h36l22 10 30 22-16 22-14-8v94H60V76l-14 8-16-22z" fill="${bg}"/><path d="M82 30l18 18 18-18" fill="${W}" opacity=".9"/><path d="M100 48v22" stroke="${fg}" stroke-width="2"/>${mark(128,92,.65,fg,ac)}</svg>`,
+  singlet:(bg,fg,ac)=>`<svg viewBox="0 0 200 200" width="56%"><path d="M70 24h14q16 26 32 0h14l4 60q-6 10-4 26l6 70H60l6-70q2-16-4-26z" fill="${bg}"/><path d="M66 100h68" stroke="${ac}" stroke-width="5"/>${mark(100,68,.85,fg,ac)}</svg>`
+};
+const PRODUCTS=[
+  {id:"tee-navy",name:"Club Logo Tee",cat:"Apparel",price:25,art:"tee",bg:N,fg:W,ac:G,tile:"#e7ebf3",sizes:["S","M","L","XL","2XL","3XL"]},
+  {id:"tee-gold",name:"Gold Mountain Tee",cat:"Apparel",price:25,art:"tee",bg:G,fg:N,ac:N,tile:"#fff3d6",sizes:["S","M","L","XL","2XL","3XL"]},
+  {id:"hoodie",name:"Mat Room Hoodie",cat:"Apparel",price:50,art:"hoodie",bg:"#4a5368",fg:W,ac:G,tile:"#e7ebf3",sizes:["S","M","L","XL","2XL","3XL"]},
+  {id:"qzip",name:"Club Quarter-Zip",cat:"Apparel",price:60,art:"qzip",bg:N,fg:W,ac:G,tile:"#fff3d6",sizes:["S","M","L","XL","2XL"]},
+  {id:"polo",name:"Golf Outing Polo",cat:"Apparel",price:45,art:"polo",bg:"#ffffff",fg:N,ac:G,tile:"#e1e6f0",sizes:["S","M","L","XL","2XL"]},
+  {id:"cap",name:"Snapback Cap",cat:"Headwear",price:28,art:"cap",bg:N,fg:W,ac:G,tile:"#fff3d6"},
+  {id:"beanie",name:"Knit Beanie",cat:"Headwear",price:22,art:"beanie",bg:N,fg:W,ac:G,tile:"#e7ebf3"},
+  {id:"tumbler",name:"Insulated Tumbler",cat:"Accessories",price:30,art:"tumbler",bg:N,fg:W,ac:G,tile:"#fff3d6"},
+  {id:"decal",name:"Car Decal",cat:"Accessories",price:6,art:"decal",bg:N,fg:W,ac:G,tile:"#e7ebf3"}
+];
+const CATS=["All","Apparel","Headwear","Accessories"];
+let storeCat="All";
+function renderFilters(){$("#filters").replaceChildren(...CATS.map(c=>el("button",{class:"chip"+(c===storeCat?" on":""),text:c,onclick:()=>{storeCat=c;renderFilters();renderProducts();}})));}
+function artEl(p,cls){const a=el("div",{class:cls});a.style.background=p.tile;a.innerHTML=ART[p.art](p.bg,p.fg,p.ac);return a;}
+function renderProducts(){
+  $("#products").replaceChildren(...PRODUCTS.filter(p=>storeCat==="All"||p.cat===storeCat).map(p=>{
+    const sel=p.sizes?el("select",{"aria-label":"Size"},...p.sizes.map(s=>el("option",{value:s,text:s}))):null;
+    return el("div",{class:"product"},artEl(p,"art"),el("div",{class:"body"},
+      el("span",{class:"tag",text:p.cat}),
+      el("div",{class:"row"},el("h3",{text:p.name}),el("span",{class:"price",text:money(p.price)})),
+      sel,
+      el("button",{class:"btn navy add",text:"Add to cart",onclick:()=>addToCart(p,sel?sel.value:null)})));
+  }));
+}
+
+/* ---------- cart ---------- */
+let cart=[];
+function addToCart(p,opt){const key=p.id+"|"+(opt||"");const f=cart.find(i=>i.key===key);if(f)f.qty++;else cart.push({key,p,opt,qty:1});renderCart();toast(p.name+" added to cart");}
+function renderCart(){
+  $("#cartCount").textContent=cart.reduce((a,i)=>a+i.qty,0);
+  const box=$("#cartItems");
+  if(!cart.length)box.replaceChildren(el("div",{class:"empty",style:"margin-top:20px",text:"Your cart is empty."}));
+  else box.replaceChildren(...cart.map(i=>el("div",{class:"line-item"},artEl(i.p,"thumb"),
+      el("div",{class:"grow"},el("div",{style:"font-weight:600",text:i.p.name}),el("div",{class:"muted",style:"font-size:.85rem",text:(i.opt?i.opt+" · ":"")+money(i.p.price)})),
+      el("div",{class:"qty"},el("button",{text:"−","aria-label":"Decrease",onclick:()=>{i.qty--;if(i.qty<=0)cart=cart.filter(x=>x!==i);renderCart();}}),el("span",{text:String(i.qty)}),el("button",{text:"+","aria-label":"Increase",onclick:()=>{i.qty++;renderCart();}})))));
+  const sub=cart.reduce((a,i)=>a+i.qty*i.p.price,0),isMember=role!=="visitor",disc=isMember?Math.round(sub*10)/100:0;
+  $("#subtotal").textContent=money(sub-disc);
+  $("#discountLine").textContent=isMember&&sub?`Member discount −${money(disc)} applied. Shipping and tax at checkout.`:"Shipping and tax calculated at checkout.";
+  $("#checkoutBtn").disabled=!cart.length;
+}
+function openCart(o){$("#drawer").classList.toggle("open",o);$("#scrim").classList.toggle("open",o);}
+$("#cartBtn").onclick=()=>openCart(true);$("#closeCart").onclick=()=>openCart(false);$("#scrim").onclick=()=>openCart(false);
+$("#checkoutBtn").onclick=()=>{openCart(false);showModal("Checkout (prototype)","On the live site this hands off to a secure payment processor for card details, shipping and tax. No payment is taken in this prototype.",[["Got it",closeModal]]);};
+
+function showModal(title,text,buttons){$("#modalBox").replaceChildren(el("h3",{text:title}),el("p",{class:"muted",text:text}),el("div",{style:"display:flex;gap:10px;justify-content:flex-end"},...buttons.map(([t,fn],i)=>el("button",{class:"btn "+(i===0?"primary":"ghost"),text:t,onclick:fn}))));$("#modal").classList.add("open");}
+function closeModal(){$("#modal").classList.remove("open");}
+$("#modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal();});
+
+/* ---------- roles ---------- */
+let role="visitor",tier=null,canPost=false;
+$("#roleSel").onchange=e=>{role=e.target.value;if(role==="member"&&!tier)tier="Tom Cat";renderAll();};
+
+/* ---------- feed ---------- */
+const PCATS=["Club news","Events","Team update","Alumni","Fundraising"];
+const DEMO_POSTS=[
+  {id:"d1",title:"Welcome to the new Member Feed",category:"Club news",author:"MCWC Board",createdAt:1793470000000,body:"[Sample post]\n\nThis is where members will get club news first: event announcements, team updates, fundraising progress and notes from the program. Thanks for supporting Mountain Cat wrestling."},
+  {id:"d2",title:"Alumni Night \u2014 save the date",category:"Events",author:"MCWC Board",createdAt:1792900000000,body:"[Sample post]\n\nAlumni Night at the Sports Center is coming up this season. We'll post the date, opponent and pre-match gathering details here as soon as they're set."},
+  {id:"d3",title:"Wrestling room entrance project",category:"Fundraising",author:"MCWC Board",createdAt:1792200000000,body:"[Sample post]\n\nOne of the club's goals is a separate entrance to the wrestling room in the Sports Center, possibly with a lobby and study area. Watch here for progress updates."}];
+let posts=[],feedState="loading",feedCat="All",dbRef=null,expanded=new Set();
+const fmtDate=ms=>ms?new Date(ms).toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"}):"";
+function renderFeed(){
+  $("#catFilters").replaceChildren(...["All",...PCATS].map(c=>el("button",{class:"chip"+(c===feedCat?" on":""),text:c,onclick:()=>{feedCat=c;renderFeed();}})));
+  const st=$("#feedStatus");st.replaceChildren();
+  if(feedState==="slow")st.append(el("div",{class:"notice",text:"The feed can't be reached yet — still trying."}));
+  if(feedState==="off")st.append(el("div",{class:"notice",text:"Demo mode: these are sample posts. New posts you publish here show only in your browser until the site is connected to a backend."}));
+  const list=posts.filter(p=>feedCat==="All"||p.category===feedCat),fl=$("#feedList");
+  if(feedState==="loading"&&!posts.length){fl.replaceChildren(el("div",{class:"empty",text:"Loading posts…"}));return;}
+  if(!list.length){fl.replaceChildren(el("div",{class:"empty",text:posts.length?"No posts in this category yet.":"No posts yet. Club staff can add the first one from “New post”."}));return;}
+  fl.replaceChildren(...list.map(p=>{
+    const long=(p.body||"").length>520,open=expanded.has(p.id);
+    const art=el("article",{class:"post"},
+      el("div",{class:"meta"},el("span",{class:"cat",text:p.category||"Club news"}),el("span",{text:(p.author||"MCWC")+" · "+fmtDate(p.createdAt)})),
+      el("h3",{text:p.title||"Untitled"}),el("div",{class:"text"+(long&&!open?" clamp":""),text:p.body||""}));
+    const actions=el("div",{style:"display:flex;gap:16px;margin-top:12px"});
+    if(long)actions.append(el("button",{class:"linkbtn",text:open?"Show less":"Read more",onclick:()=>{open?expanded.delete(p.id):expanded.add(p.id);renderFeed();}}));
+    if(role==="staff"&&(canPost||!dbRef))actions.append(el("button",{class:"linkbtn",style:"color:#b42318",text:"Delete",onclick:()=>confirmDelete(p)}));
+    if(actions.childNodes.length)art.append(actions);
+    return art;
+  }));
+}
+function confirmDelete(p){showModal("Delete this post?","“"+(p.title||"Untitled")+"” will be removed from the Member Feed for everyone.",[["Delete",async()=>{closeModal();if(!dbRef){posts=posts.filter(x=>x!==p);renderAll();toast("Post deleted (demo)");return;}try{await dbRef.collection("posts").doc(p.id).delete();toast("Post deleted");}catch(e){toast("Couldn't delete: "+(e&&e.code||"error"));}}],["Cancel",closeModal]]);}
+function renderHomeLatest(){
+  const b=$("#homeLatestBody");
+  if(!posts.length){b.textContent=feedState==="loading"?"Loading…":"Club posts will show here.";return;}
+  const p=posts[0];
+  b.replaceChildren(el("div",{class:"meta",style:"font-size:.85rem;margin-bottom:6px;display:flex;gap:8px;align-items:center"},el("span",{class:"cat",text:p.category||"Club news"}),el("span",{text:fmtDate(p.createdAt)})),
+    el("h3",{style:"margin:.3em 0;color:var(--ink)",text:p.title||"Untitled"}),
+    el("p",{style:"margin:0",text:"Members can read the full post on the Member Feed."}));
+}
+
+/* ---------- composer ---------- */
+$("#pCat").replaceChildren(...PCATS.map(c=>el("option",{value:c,text:c})));
+function updatePreview(){
+  const t=$("#pTitle").value.trim(),b=$("#pBody").value,a=$("#pAuthor").value.trim()||"MCWC";
+  $("#pvTitle").textContent=t||"Your title";$("#pvTitle").classList.toggle("muted",!t);
+  $("#pvBody").textContent=b||"Your post will look like this on the feed.";$("#pvBody").classList.toggle("muted",!b);
+  $("#pvCat").textContent=$("#pCat").value;$("#pvMeta").textContent=a+" · just now";$("#pCount").textContent=b.length+" / 8000";
+}
+["pTitle","pBody","pAuthor","pCat"].forEach(id=>$("#"+id).addEventListener("input",updatePreview));
+$("#clearBtn").onclick=()=>{$("#postForm").reset();updatePreview();};
+let publishing=false;
+$("#postForm").addEventListener("submit",async e=>{
+  e.preventDefault();if(publishing)return;
+  const title=$("#pTitle").value.trim(),body=$("#pBody").value.trim();
+  if(!title||!body){toast("Add a title and some text first");return;}
+  if(!dbRef){posts.unshift({id:"local"+Date.now(),title,body,category:$("#pCat").value,author:$("#pAuthor").value.trim()||"MCWC",createdAt:Date.now()});feedState="off";$("#postForm").reset();updatePreview();toast("Published (demo — visible only in this browser)");location.hash="#alumni";return;}
+  publishing=true;$("#publishBtn").disabled=true;$("#publishBtn").textContent="Publishing…";
+  try{
+    await dbRef.collection("posts").add({title,body,category:$("#pCat").value,author:$("#pAuthor").value.trim()||"MCWC",createdAt:Date.now()});
+    $("#postForm").reset();updatePreview();toast("Published to the Member Feed");location.hash="#alumni";
+  }catch(err){const c=err&&err.code;toast(c==="invalid_argument"?"You don't have permission to post here.":c==="quota_exceeded"?"The feed is full — delete old posts first.":"Couldn't publish — try again.");}
+  finally{publishing=false;$("#publishBtn").disabled=false;$("#publishBtn").textContent="Publish to feed";}
+});
+
+/* ---------- router ---------- */
+const VIEWS=["home","about","join","store","alumni","alumni-post","donate"];
+function route(){
+  let v=(location.hash||"#home").slice(1);if(!VIEWS.includes(v))v="home";
+  document.querySelectorAll("[data-view]").forEach(s=>s.hidden=s.dataset.view!==v);
+  document.querySelectorAll("nav.main a").forEach(a=>a.classList.toggle("on",a.dataset.r===v||(v==="alumni-post"&&a.dataset.r==="alumni")));
+  $("#nav").classList.remove("open");window.scrollTo(0,0);renderAll();
+}
+function renderAll(){
+  const member=role!=="visitor";
+  $("#gate").hidden=member;$("#feedWrap").hidden=!member;$("#newPostBtn").hidden=role!=="staff";
+  $("#notStaff").hidden=role==="staff";$("#composer").hidden=role!=="staff";
+  const n=$("#composeNotice");n.replaceChildren();
+  if(role==="staff"&&!dbRef)n.append(el("div",{class:"notice",text:"Demo mode: posts you publish here appear on the feed in this browser only. Connecting a backend makes them live for all members."}));
+  else if(role==="staff"&&!canPost)n.append(el("div",{class:"notice",text:"Your account can preview this page but may not have permission to publish."}));
+  $("#memberLine").textContent=role==="staff"?"Club staff — full access, can post":(tier||"Tom Cat")+" member · renews annually";
+  renderFeed();renderHomeLatest();renderCart();
+}
+window.addEventListener("hashchange",route);
+$("#menuToggle").onclick=()=>$("#nav").classList.toggle("open");
+renderTiers("#tiersA",null);renderTiers("#tiersB","Members only");
+renderFilters();renderProducts();route();
+
+/* ---------- live data ---------- */
+(async()=>{
+  const timer=setTimeout(()=>{if(feedState==="loading"){feedState="slow";renderAll();}},10000);
+  try{
+    const c=window.claude,use=n=>c&&c.use?c.use(n):null;
+    const [db,user]=await Promise.all([use("db"),use("user")]);
+    if(user){try{canPost=!!(await user.canEdit());}catch(_){canPost=false;}}
+    if(canPost){role="staff";$("#roleSel").value="staff";}
+    if(!db){clearTimeout(timer);feedState="off";if(!posts.length)posts=DEMO_POSTS.slice();renderAll();return;}
+    dbRef=db;renderAll();
+    db.collection("posts").orderBy("createdAt","desc").limit(100).onSnapshot(snap=>{
+      posts=snap.docs.map(d=>Object.assign({id:d.id},d.data()));
+      if(!snap.metadata.fromCache)clearTimeout(timer);
+      feedState="ready";renderAll();
+    },()=>{clearTimeout(timer);feedState="off";dbRef=null;if(!posts.length)posts=DEMO_POSTS.slice();renderAll();});
+  }catch(e){clearTimeout(timer);feedState="off";dbRef=null;if(!posts.length)posts=DEMO_POSTS.slice();renderAll();}
+})();
+})();
+</script>
+</body>
+</html>
