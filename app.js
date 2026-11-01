@@ -407,7 +407,7 @@ function route() {
   let v = (location.hash || "#home").slice(1); if (!VIEWS.includes(v)) v = "home";
   document.querySelectorAll("[data-view]").forEach(s => s.hidden = s.dataset.view !== v);
   document.querySelectorAll("nav.main a").forEach(a => a.classList.toggle("on", a.dataset.r === v || (v === "alumni-post" && a.dataset.r === "alumni")));
-  $("#nav").classList.remove("open"); window.scrollTo(0, 0);
+  setMenu(false); window.scrollTo(0, 0);
   if (v === "alumni-post") setTimeout(() => { if (isStaff() && !$("#pTitle").value) $("#pTitle").focus(); }, 50);
   renderAll();
 }
@@ -429,7 +429,14 @@ function renderAll() {
   renderFeed(); renderHomeLatest(); renderCart(); renderEditBar(); if (staff) renderAdmin();
 }
 window.addEventListener("hashchange", route);
-$("#menuToggle").onclick = () => $("#nav").classList.toggle("open");
+function setMenu(open) {
+  $("#nav").classList.toggle("open", open);
+  const t = $("#menuToggle"); t.setAttribute("aria-expanded", String(open)); t.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+}
+$("#menuToggle").onclick = e => { e.stopPropagation(); setMenu(!$("#nav").classList.contains("open")); };
+$("#nav").addEventListener("click", e => { if (e.target.closest("a,button")) setMenu(false); });
+document.addEventListener("click", e => { if ($("#nav").classList.contains("open") && !e.target.closest("header.site")) setMenu(false); });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && $("#nav").classList.contains("open")) { setMenu(false); $("#menuToggle").focus(); } });
 $("#roleSel").onchange = e => { role = e.target.value; if (role === "member" && !tier) tier = "Tom Cat"; if (!isStaff() && location.hash === "#admin") location.hash = "#alumni"; renderAll(); };
 
 /* ================= START ================= */
