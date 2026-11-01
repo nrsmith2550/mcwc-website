@@ -60,17 +60,37 @@ let backend = null;
 const isStaff = () => role === "staff";
 
 /* ================= MEMBERSHIP LEVELS ================= */
+// Membership levels and their Stripe payment links (same checkouts as mcatwc.org).
+const LEVELS = [
+  { name: "Tom Cat", annual: 60, monthly: 5, perks: "Admission to home matches + newsletter",
+    annualUrl: "https://buy.stripe.com/14k173cYm6K1gY87st", monthlyUrl: "https://buy.stripe.com/aEUg1Xgay1pH23eeV2" },
+  { name: "Blue Cat", annual: 120, monthly: 10, perks: "Tom Cat Level + MCWC T-Shirt",
+    annualUrl: "https://buy.stripe.com/aEU5nj3nM0lD9vGdQS", monthlyUrl: "https://buy.stripe.com/cN2bLH5vU9Wd8rC8wF" },
+  { name: "Bronze Cat", annual: 250, monthly: 21, perks: "Blue Cat Level + MCWC Hooded Sweatshirt",
+    annualUrl: "https://buy.stripe.com/eVa2b75vU9WdfU47sx", monthlyUrl: "https://buy.stripe.com/28o3fb2jI8S923e9AK" },
+  { name: "Silver Cat", annual: 600, monthly: 50, perks: "Bronze Cat + MCWC Hat + MCWC Tumbler",
+    annualUrl: "https://buy.stripe.com/eVadTP9Mad8p5fq9AD", monthlyUrl: "https://buy.stripe.com/3cs3fbgay7O5dLW00b" },
+  { name: "Gold Cat", annual: 1000, perks: "Silver Cat + MCWC 1/4 Zip Jacket",
+    annualUrl: "https://buy.stripe.com/28o173bUi6K1dLW4gk" },
+  { name: "Platinum Cat", annual: 2000, perks: "Gold Cat + Hotel voucher for the alumni match",
+    annualUrl: "https://buy.stripe.com/fZebLH8I69Wd6ju9AG" },
+  { name: "Mountain Cat", annual: 3500, perks: "Platinum Cat + ½ day (4hr) clinic of your choice",
+    annualUrl: "https://buy.stripe.com/fZe02Zgayfgx23e14b", featured: true }
+];
 function tierCards() {
-  const mk = (cls, lvl, amt, sub, perks, btnCls, join) => {
-    const t = el("div", { class: "tier" + cls }, el("div", { class: "lvl", text: lvl }), el("div", { class: "amt", text: amt }),
-      el("div", { class: "muted", text: sub }), el("ul", {}, ...perks.map(p => el("li", { text: p }))));
-    if (join) t.append(el("button", { class: "btn " + btnCls, text: "Join now", onclick: () => joinFlow(join) }));
+  const ext = { target: "_blank", rel: "noopener" };
+  return el("div", { class: "tiers" }, ...LEVELS.map(l => {
+    const t = el("div", { class: "tier" + (l.featured ? " feat" : "") },
+      el("div", { class: "lvl", text: l.name }),
+      el("div", { class: "amt" }, document.createTextNode(money(l.annual)), el("span", { class: "per", text: " / year" })),
+      el("div", { class: "muted mo", text: l.monthly ? "or " + money(l.monthly) + " a month" : "Annual only" }),
+      el("p", { class: "perks", text: l.perks }));
+    const btns = el("div", { class: "tier-btns" },
+      el("a", { class: "btn " + (l.featured ? "primary" : "navy"), href: l.annualUrl, ...ext, text: money(l.annual) + " yearly" }));
+    if (l.monthlyUrl) btns.append(el("a", { class: "btn ghost", href: l.monthlyUrl, ...ext, text: money(l.monthly) + " monthly" }));
+    t.append(btns);
     return t;
-  };
-  return el("div", { class: "tiers" },
-    mk("", "Tom Cat", "$60", "per year · entry level", ["Access to the Member Feed", "Member pricing in the store", "Club newsletter"], "navy", "Tom Cat"),
-    mk("", "Levels 2–6", "$ — ", "five levels in between", ["Add each level's name, price and perks here", "Perks build on the level below"], "", null),
-    mk(" feat", "Mountain Cat", "$3,500", "per year · top level", ["Everything in every level", "Recognition as a top supporter", "Placeholder: add your top-level perks"], "primary", "Mountain Cat"));
+  }));
 }
 function joinFlow(lvl) {
   if (CFG.joinUrl) { window.open(CFG.joinUrl, "_blank", "noopener"); return; }
@@ -78,7 +98,10 @@ function joinFlow(lvl) {
   showModal("Join as " + lvl + " (prototype)", "On the live site this step takes the annual dues payment and creates the member's login. In this preview, continuing unlocks the Member Feed.",
     [["Continue", () => { tier = lvl; role = "member"; $("#roleSel").value = "member"; closeModal(); location.hash = "#alumni"; renderAll(); toast("Welcome to the club, " + lvl + "!"); }], ["Cancel", closeModal]]);
 }
-function renderJoinPage() { $("#tiersA").replaceChildren(tierCards()); }
+function renderJoinPage() {
+  $("#tiersA").replaceChildren(tierCards(),
+    el("p", { class: "muted", style: "font-size:.9rem;margin-top:18px" }, document.createTextNode("Checkout is handled securely by Stripe and opens in a new tab. Questions? Call 412-337-5879 or email "), el("a", { href: "mailto:Mcatwc22@gmail.com", text: "Mcatwc22@gmail.com" }), document.createTextNode(".")));
+}
 function renderGate() {
   const g = $("#tiersB"); const kids = [];
   kids.push(el("h2", { text: "Members only" }), el("p", { class: "muted", text: "The Member Feed is for paid club members. Pick a level to join." }), tierCards());
