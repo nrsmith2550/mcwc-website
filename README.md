@@ -22,6 +22,6 @@ They can also add and remove other staff on the Admin page. Posts are stored in 
 
 ## Not built yet (placeholders)
 - Member logins. The feed's members-only screen stays up; for now only staff can read posts.
-- Membership dues payments and store checkout
+- Store checkout (membership dues and donations use the club's existing Stripe links)
 - Membership levels 2–6 (names, prices, perks), mission text, board list, events
 - Store products and prices

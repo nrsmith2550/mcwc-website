@@ -233,6 +233,24 @@ footer.site a{color:#fff}
 .contact{margin:0;display:grid;grid-template-columns:auto 1fr;gap:10px 16px}
 .contact dt{font-weight:600;color:var(--ink-soft);font-size:.9rem}
 .contact dd{margin:0}
+.donate-grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:48px;align-items:start}
+@media (max-width:900px){.donate-grid{grid-template-columns:1fr;gap:32px}}
+.donate-side{display:grid;gap:18px}
+.donate-card{background:var(--navy);color:#fff;border-radius:14px;padding:40px;border-left:8px solid var(--gold);position:relative;overflow:hidden}
+.donate-card::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,.03) 0 18px,transparent 18px 36px);pointer-events:none}
+.donate-card>*{position:relative}
+.donate-card h2{font-size:clamp(2rem,4vw,2.8rem);margin-bottom:.3em}
+.donate-card p{color:#dbe1ef;font-size:1.1rem;max-width:560px}
+.donate-btn{font-size:1.25rem;padding:16px 30px;margin-top:8px}
+.donate-fine{font-size:.88rem!important;color:#aeb8cf!important;margin:16px 0 0}
+@media (max-width:600px){.donate-card{padding:28px 22px}.donate-btn{width:100%;justify-content:center}}
+.ways{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:18px}
+.way{display:flex;flex-direction:column;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px;color:var(--ink);text-decoration:none;transition:border-color .15s,transform .15s}
+a.way:hover{border-color:var(--gold);transform:translateY(-2px)}
+.way-ico{width:46px;height:46px;border-radius:50%;background:var(--navy);color:var(--gold);display:grid;place-items:center;margin-bottom:8px}
+.way b{font-family:var(--head);font-size:1.3rem;text-transform:uppercase;letter-spacing:.03em}
+@media (max-width:480px){.ways{grid-template-columns:1fr}}
+.way span:last-child{color:var(--ink-soft);line-height:1.4;word-break:break-word}
 [hidden]{display:none!important}
 </style>
 </head>
@@ -401,10 +419,54 @@ footer.site a{color:#fff}
 
 <!-- DONATE -->
 <section data-view="donate" hidden>
-  <div class="page-hero on-dark"><div class="wrap"><div><div class="eyebrow">Support the club</div><h1 style="margin:0">Donate</h1></div></div></div>
-  <div class="section"><div class="wrap" style="max-width:720px">
-    <p class="muted">Placeholder — one-time gifts and planned giving connect here at launch.</p>
-  </div></div>
+  <div class="page-hero on-dark">
+    <div class="wrap"><div><div class="eyebrow">Make a donation</div><h1 style="margin:0">Support the Mountain Cat Wrestling Club</h1><p>We are a 503c Not-For-Profit Tax-Exempt organization.</p></div></div>
+  </div>
+  <div class="section">
+    <div class="wrap donate-grid">
+      <div class="donate-main">
+        <div class="donate-card">
+          <div class="eyebrow gold">Give online</div>
+          <h2>Donate any amount</h2>
+          <p>Choose your own amount and give securely by card or Apple Pay. Every gift helps grow the legacy of UPJ and the Mountain Cat Wrestling program.</p>
+          <a class="btn primary donate-btn" href="https://buy.stripe.com/14AbJ26Eq37xdj6fy7frW0i" target="_blank" rel="noopener">Start here — donate now</a>
+          <p class="donate-fine">Secure checkout by Stripe opens in a new tab. EIN: 88-2370698.</p>
+        </div>
+
+        <h2 style="margin-top:52px">Giving is quick &amp; easy!</h2>
+        <div class="ways">
+          <a class="way" href="https://buy.stripe.com/14AbJ26Eq37xdj6fy7frW0i" target="_blank" rel="noopener">
+            <span class="way-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></span>
+            <b>Online</b><span>Card or Apple Pay, any amount</span>
+          </a>
+          <a class="way" href="tel:+14123375879">
+            <span class="way-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></span>
+            <b>Phone</b><span>412-337-5879</span>
+          </a>
+          <a class="way" href="mailto:Mcatwc22@gmail.com">
+            <span class="way-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg></span>
+            <b>Email</b><span>Mcatwc22@gmail.com</span>
+          </a>
+          <div class="way">
+            <span class="way-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M9 21v-7h6v7"/></svg></span>
+            <b>Mail</b><span>2831 Bedford Street<br>Johnstown, PA 15904</span>
+          </div>
+        </div>
+      </div>
+
+      <aside class="donate-side">
+        <div class="card topbar">
+          <div class="eyebrow">Our mission</div>
+          <p style="margin:0">The mission of the MCWC is to promote the sport of wrestling. We will strive to provide the foundation that allows opportunities for the growth of the individual, team, and campus community in a family-oriented environment.</p>
+        </div>
+        <div class="card">
+          <div class="eyebrow">Prefer a membership?</div>
+          <p style="margin:0 0 14px">Annual levels from Tom Cat ($60) to Mountain Cat ($3,500) come with match admission, club gear and more.</p>
+          <a class="btn navy" href="#join" style="width:100%;justify-content:center">See membership levels</a>
+        </div>
+      </aside>
+    </div>
+  </div>
 </section>
 
 <!-- STORE -->
@@ -544,7 +606,7 @@ footer.site a{color:#fff}
 <div class="modal" id="modal"><div class="box" id="modalBox"></div></div>
 <div class="toast" id="toast"></div>
 
-<script src="config.js?v=20261031215505"></script>
-<script src="app.js?v=20261031215505"></script>
+<script src="config.js?v=20261031220059"></script>
+<script src="app.js?v=20261031220059"></script>
 </body>
 </html>
