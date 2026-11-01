@@ -209,6 +209,24 @@ footer.site a{color:#fff}
 .table-wrap{overflow-x:auto}
 .auth-form input{width:100%;border:1px solid var(--line);border-radius:8px;padding:11px 12px;font:inherit;margin-bottom:12px}
 .auth-err{color:#b42318;font-size:.9rem;min-height:1.2em;margin-bottom:8px}
+.about-grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:48px;align-items:start}
+.about-side{position:sticky;top:96px;display:grid;gap:18px}
+@media (max-width:900px){.about-grid{grid-template-columns:1fr;gap:32px}.about-side{position:static}}
+.about-lead{font-size:1.2rem;line-height:1.6}
+.about-mission{font-size:1.1rem;border-left:4px solid var(--gold);padding:4px 0 4px 18px;margin:0}
+.letter{background:var(--card);border:1px solid var(--line);border-top:6px solid var(--navy);border-radius:var(--r);padding:36px 40px;font-size:1.06rem;line-height:1.7;margin-top:18px}
+@media (max-width:600px){.letter{padding:24px 20px}}
+.letter p{margin:0 0 1.1em}
+.letter-quote{font-family:var(--head);font-size:1.55rem;line-height:1.25;color:var(--navy);text-transform:none;letter-spacing:.01em;border-left:4px solid var(--gold);padding-left:18px}
+.letter-stats{list-style:none;padding:0;margin:6px 0 26px;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.letter-stats li{background:#f1f3f8;border-radius:8px;padding:12px 14px;line-height:1.35;font-size:.98rem}
+.letter-stats b{display:block;font-family:var(--head);font-size:1.7rem;color:var(--navy);line-height:1.05}
+.letter-motto{font-family:var(--head);font-size:1.8rem;font-weight:700;text-transform:uppercase;color:var(--navy);letter-spacing:.02em}
+.letter-sign{margin:28px 0 0!important;font-weight:600}
+.letter-sign span{display:block;font-family:var(--head);font-size:1.5rem;font-weight:700;text-transform:uppercase;color:var(--navy);margin-top:4px}
+.contact{margin:0;display:grid;grid-template-columns:auto 1fr;gap:10px 16px}
+.contact dt{font-weight:600;color:var(--ink-soft);font-size:.9rem}
+.contact dd{margin:0}
 [hidden]{display:none!important}
 </style>
 </head>
@@ -312,20 +330,61 @@ footer.site a{color:#fff}
 
 <!-- ABOUT -->
 <section data-view="about" hidden>
-  <div class="page-hero on-dark"><div class="wrap"><div><div class="eyebrow">About the club</div><h1 style="margin:0">Our Mission</h1></div></div></div>
-  <div class="section"><div class="wrap grid2" style="align-items:start">
-    <div>
-      <p style="font-size:1.15rem">The Mountain Cat Wrestling Club is a nonprofit organization formed to support the Pitt-Johnstown wrestling program and the student-athletes in it.</p>
-      <p class="muted">The club was announced at the annual golf outing in August 2022. <em>Placeholder — replace with your mission statement, history and board list.</em></p>
-    </div>
-    <div class="card topbar">
-      <h3>Upcoming events</h3>
-      <div class="events" style="margin-top:12px">
-        <div class="event"><div class="date">TBD</div><div><b>Alumni Night</b><div class="muted" style="font-size:.9rem">Home dual · Sports Center</div></div></div>
-        <div class="event"><div class="date">AUG</div><div><b>Annual Golf Outing</b><div class="muted" style="font-size:.9rem">Placeholder date &amp; course</div></div></div>
+  <div class="page-hero on-dark"><div class="wrap"><div><div class="eyebrow">About the club</div><h1 style="margin:0">About Us</h1></div></div></div>
+  <div class="section">
+    <div class="wrap about-grid">
+      <div>
+        <p class="about-lead">The MCWC was organized and will be managed by a group of people with strong ties to the campus, program, and community. We are a 503c Not-For-Profit Tax-Exempt organization (EIN: 88-2370698.) Our goal is to promote the sport of wrestling, provide opportunities, and grow the legacy of UPJ and the Mountain Cat Wrestling program.</p>
+
+        <h2 style="margin-top:44px">Our Mission</h2>
+        <p class="about-mission">The mission of the MCWC is to promote the sport of wrestling. We will strive to provide the foundation that allows opportunities for the growth of the individual, team, and campus community in a family-oriented environment. We are driven to promote our goals by enhancing and supporting the entire campus community.</p>
+
+        <h2 id="letter" style="margin-top:52px">A Letter from Coach Pecora</h2>
+        <article class="letter">
+          <p>Dear Mountain Cat Wrestling Alumni, Friends &amp; Family,</p>
+          <p class="letter-quote">Consistency is the truest measure of success. Any program can be good for one day, one week, one month, even one year, but can a program be good every day, every week, every month, year after year, after year”.</p>
+          <p><b>That is Pitt Johnstown Wrestling.</b></p>
+          <ul class="letter-stats">
+            <li><b>631-152-5</b> Dual Meet Record- .801 career winning percentage</li>
+            <li><b>24</b> NCAA Regional Titles</li>
+            <li><b>2</b> NCAA National Titles</li>
+            <li><b>36</b> Top 20 finishes in the nation</li>
+            <li><b>23</b> Top 10 finishes in the nation</li>
+            <li><b>11</b> Top 5 finishes in the nation</li>
+            <li><b>164</b> All-Americans</li>
+            <li><b>14</b> National Champions who have combined for 22 National Titles</li>
+            <li><b>200</b> All-Academic Team Members</li>
+          </ul>
+          <p>I am very proud of our program, and with very humble beginnings we have become one of the most successful wrestling programs in the nation in any division.</p>
+          <p>Our goal is to continue this tradition, and that is why we are very excited about the development of the Mountain Cat Wrestling Club (MCWC), whose mission is to help our student-athletes continue to learn through academic and athletic success, as well as community service.</p>
+          <p>Under the leadership of President Jem Spectar, our athletic programs are continuing to grow in all three major areas: Staff, Facilities, and Scholarship.</p>
+          <p>We have just recently added a Full-Time Assistant Coach in UPJ National Champion, Tyler Reinhart, who will join two part-time assistants in UPJ National Champions, Jody Strittmatter and Shad Benton.</p>
+          <p>The Mountain Cat Wrestling Club (MCWC), working along with the University, will help continue growth in those areas and to continue this tradition of excellence.</p>
+          <p>I encourage you to be “Mountain Cat Proud” by providing support to the Mountain Cat Wrestling Club and urge you to help spread the word about the Great things happening at the University of Pittsburgh at Johnstown.</p>
+          <p>And remember: Uniting the Goals and Efforts of the Individual with the Goals and Efforts of the Team to Achieve Greatness Together makes us all…</p>
+          <p class="letter-motto">…Brothers For Life.</p>
+          <p class="letter-sign">Stay Strong!<br><span>Coach Pecora</span></p>
+        </article>
       </div>
+
+      <aside class="about-side">
+        <div class="card topbar">
+          <div class="eyebrow">Support the club</div>
+          <p style="margin:0 0 16px">We are a 503c Not-For-Profit Tax-Exempt organization.</p>
+          <a class="btn primary" href="#join" style="width:100%;justify-content:center">Get your membership</a>
+          <a class="btn ghost" href="#donate" style="width:100%;justify-content:center;margin-top:10px">Make a donation</a>
+        </div>
+        <div class="card">
+          <div class="eyebrow">Contact us</div>
+          <dl class="contact">
+            <dt>Phone</dt><dd><a href="tel:+14123375879">412-337-5879</a></dd>
+            <dt>Email</dt><dd><a href="mailto:Mcatwc22@gmail.com">Mcatwc22@gmail.com</a></dd>
+            <dt>Mail</dt><dd>2831 Bedford Street<br>Johnstown, PA 15904</dd>
+          </dl>
+        </div>
+      </aside>
     </div>
-  </div></div>
+  </div>
 </section>
 
 <!-- JOIN (membership levels) -->
@@ -479,7 +538,7 @@ footer.site a{color:#fff}
 <div class="modal" id="modal"><div class="box" id="modalBox"></div></div>
 <div class="toast" id="toast"></div>
 
-<script src="config.js?v=202610312143"></script>
-<script src="app.js?v=202610312143"></script>
+<script src="config.js?v=20261031215022"></script>
+<script src="app.js?v=20261031215022"></script>
 </body>
 </html>
