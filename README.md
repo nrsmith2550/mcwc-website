@@ -24,4 +24,4 @@ They can also add and remove other staff on the Admin page. Posts are stored in 
 - Member logins. The feed's members-only screen stays up; for now only staff can read posts.
 - Membership dues payments and store checkout
 - Membership levels 2–6 (names, prices, perks), mission text, board list, events
-- Store products and prices, logo artwork
+- Store products and prices
