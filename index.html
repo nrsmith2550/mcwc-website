@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mountain Cat Wrestling Club — Website Prototype</title>
+<title>Mountain Cat Wrestling Club</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap">
 <style>
@@ -356,7 +356,7 @@ footer.site a{color:#fff}
     </div>
   </div>
   <div class="wrap">
-    <div id="notStaff" class="gate" hidden><h2>Staff only</h2><p class="muted">Only club staff and board members can publish to the Member Feed.</p></div>
+    <div id="notStaff" class="gate" hidden><h2>Page not available</h2><p class="muted"><a href="#home">Back to the home page</a></p></div>
     <div class="composer" id="composer" hidden>
       <form id="postForm" autocomplete="off">
         <div id="composeNotice"></div>
@@ -391,6 +391,16 @@ footer.site a{color:#fff}
   </div>
 </section>
 
+<!-- STAFF LOGIN (unlisted: reached only at #staff) -->
+<section data-view="staff" hidden>
+  <div class="page-hero on-dark">
+    <div class="wrap"><div><div class="eyebrow">Mountain Cat Wrestling Club</div><h1 style="margin:0">Staff Login</h1><p>For club staff and board members only.</p></div></div>
+  </div>
+  <div class="wrap" style="padding:48px 24px 90px;max-width:560px">
+    <div class="card topbar" id="staffLoginCard" style="text-align:center"></div>
+  </div>
+</section>
+
 <!-- ADMIN: STAFF LIST -->
 <section data-view="admin" hidden>
   <div class="page-hero on-dark">
@@ -400,7 +410,7 @@ footer.site a{color:#fff}
     </div>
   </div>
   <div class="wrap" style="padding:36px 24px 80px;max-width:820px">
-    <div id="adminNotStaff" class="gate" hidden><h2>Staff only</h2><p class="muted">Only club staff can manage staff access.</p></div>
+    <div id="adminNotStaff" class="gate" hidden><h2>Page not available</h2><p class="muted"><a href="#home">Back to the home page</a></p></div>
     <div id="adminBody" hidden>
       <div id="adminNotice"></div>
       <form id="staffForm" class="card" style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-bottom:20px" autocomplete="off">

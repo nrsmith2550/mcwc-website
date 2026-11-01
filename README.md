@@ -5,7 +5,7 @@ Website for the Mountain Cat Wrestling Club (supporting Pitt-Johnstown wrestling
 **Pages:** Home · About · Join (membership levels) · Member Feed (members only) · New Post and Admin (staff only) · Store with cart · Donate
 
 ## Staff posting
-Staff sign in with Google and can publish, edit, pin, draft and delete Member Feed posts.
+Staff sign in with Google on an unlisted login page (`/#staff`), then publish, edit, pin, draft and delete Member Feed posts.
 They can also add and remove other staff on the Admin page. Posts are stored in Firebase on the free plan.
 
 **To turn it on, follow [SETUP.md](SETUP.md).** Until `config.js` has Firebase settings, the site runs in

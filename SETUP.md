@@ -42,11 +42,14 @@ After this, you can add other staff from the website's **Admin** page. You won't
 4. Commit the change. GitHub Pages redeploys in about a minute.
 
 ## 7. Try it
-Open the site and click **Staff sign-in**, then choose your Google account. **Members → + New post** is where you write.
+Go to the staff login page, **https://nrsmith2550.github.io/mcwc-website/#staff**, and click **Sign in with Google**.
+This page isn't linked anywhere on the site, so bookmark it and share it only with staff.
+After you sign in, **+ New post** on the Member Feed is where you write.
 
 ## How staff use it
 | Task | How |
 |---|---|
+| Sign in | Open the staff login page (`…/mcwc-website/#staff`) |
 | Write a post | **Members → + New post**, type it, click **Publish to feed** |
 | Save for later | Click **Save as draft**. Drafts are only visible to staff. |
 | Fix a post | Click **Edit** on the post in the feed |

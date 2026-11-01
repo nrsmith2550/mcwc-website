@@ -81,15 +81,35 @@ function joinFlow(lvl) {
 function renderJoinPage() { $("#tiersA").replaceChildren(tierCards()); }
 function renderGate() {
   const g = $("#tiersB"); const kids = [];
-  if (mode === "firebase" && user && staffChecked && !isStaff()) {
-    kids.push(el("div", { class: "notice", style: "text-align:left" },
-      el("b", { text: "Signed in as " + (user.email || "") + "." }), document.createTextNode(" This Google account isn't on the staff list. Ask a club admin to add it, or "),
-      el("button", { class: "linkbtn", text: "sign out", onclick: signOut }), document.createTextNode(".")));
-  }
   kids.push(el("h2", { text: "Members only" }), el("p", { class: "muted", text: "The Member Feed is for paid club members. Pick a level to join." }), tierCards());
-  if (mode === "firebase" && !user) kids.push(el("p", { class: "muted", style: "font-size:.88rem;margin-top:14px" }, document.createTextNode("Club staff? "), el("button", { class: "linkbtn", text: "Sign in with Google", onclick: signIn })));
-  else if (mode === "demo") kids.push(el("p", { class: "muted", style: "font-size:.88rem;margin-top:14px" }, document.createTextNode("Already a member? "), el("button", { class: "linkbtn", text: "Sign in", onclick: () => joinFlow("Tom Cat") })));
+  if (mode === "demo") kids.push(el("p", { class: "muted", style: "font-size:.88rem;margin-top:14px" }, document.createTextNode("Already a member? "), el("button", { class: "linkbtn", text: "Sign in", onclick: () => joinFlow("Tom Cat") })));
   g.replaceChildren(...kids);
+}
+
+/* ================= STAFF LOGIN PAGE (#staff, unlisted) ================= */
+let signingIn = false;
+function renderStaffLogin() {
+  const c = $("#staffLoginCard"); const kids = [];
+  const btn = (cls, text, fn) => el("button", { class: "btn " + cls, text, onclick: fn, style: "justify-content:center;width:100%;margin-top:10px" });
+  const link = (cls, text, href) => el("a", { class: "btn " + cls, text, href, style: "justify-content:center;width:100%;margin-top:10px" });
+  if (mode === "demo") {
+    kids.push(el("h3", { text: "Demo mode" }), el("p", { class: "muted", text: "Firebase isn't connected, so there's nothing to sign in to. Use the “Preview as” menu at the top to try the staff tools." }));
+  } else if (!user) {
+    kids.push(el("h3", { text: "Sign in" }), el("p", { class: "muted", text: "Use the Google account the club added to the staff list." }),
+      btn("navy", signingIn ? "Opening Google…" : "Sign in with Google", signIn));
+  } else if (!staffChecked) {
+    kids.push(el("h3", { text: "Checking access…" }), el("p", { class: "muted", text: user.email || "" }));
+  } else if (isStaff()) {
+    kids.push(el("h3", { text: "You're signed in" }), el("p", { class: "muted", text: user.email || "" }),
+      link("primary", "+ New post", "#alumni-post"), link("navy", "Go to the Member Feed", "#alumni"), link("ghost", "Staff access", "#admin"),
+      el("p", { style: "margin:16px 0 0" }, el("button", { class: "linkbtn", text: "Sign out", onclick: signOut })));
+  } else {
+    kids.push(el("h3", { text: "Not on the staff list" }),
+      el("p", { class: "muted", text: (user.email || "This account") + " isn't on the club's staff list. Ask a club admin to add it, or sign in with a different Google account." }),
+      btn("navy", "Use a different account", async () => { await signOut(); signIn(); }),
+      el("p", { style: "margin:16px 0 0" }, el("button", { class: "linkbtn", text: "Sign out", onclick: signOut })));
+  }
+  c.replaceChildren(...kids);
 }
 
 /* ================= STORE (unchanged) ================= */
@@ -185,7 +205,7 @@ const FirebaseBackend = {
     staffChecked = true;
     if (isStaff()) this.listen();
     renderAll();
-    if (isStaff()) toast("Signed in as staff");
+    if (isStaff()) { toast("Signed in as staff"); if (location.hash === "#staff") location.hash = "#alumni"; }
   },
   listen() {
     const { fs } = FB;
@@ -222,16 +242,24 @@ async function signIn() {
   if (mode !== "firebase") return;
   const { auth } = FB; const provider = new auth.GoogleAuthProvider();
   provider.setCustomParameters({ prompt: "select_account" });
+  signingIn = true; renderAll();
   try { await auth.signInWithPopup(FB.authInst, provider); }
   catch (e) {
+    signingIn = false; renderAll();
     if (e && (e.code === "auth/popup-blocked" || e.code === "auth/operation-not-supported-in-this-environment")) { await auth.signInWithRedirect(FB.authInst, provider); return; }
     if (e && e.code === "auth/popup-closed-by-user") return;
     if (e && e.code === "auth/unauthorized-domain") { showModal("Sign-in not set up for this address", "Add this website's domain under Firebase → Authentication → Settings → Authorized domains.", [["OK", closeModal]]); return; }
     toast("Couldn't sign in: " + ((e && e.code) || "error"));
+    return;
   }
+  signingIn = false; renderAll();
 }
-async function signOut() { if (mode === "firebase") { await FB.auth.signOut(FB.authInst); toast("Signed out"); } }
-$("#acctBtn").onclick = () => (user ? signOut() : signIn());
+async function signOut() {
+  if (mode !== "firebase") return;
+  await FB.auth.signOut(FB.authInst); toast("Signed out");
+  if (["#alumni-post", "#admin"].includes(location.hash)) location.hash = "#home";
+}
+$("#acctBtn").onclick = () => signOut();
 
 function friendlyError(e) {
   const c = e && e.code || "";
@@ -374,7 +402,7 @@ $("#staffForm").addEventListener("submit", async e => {
 });
 
 /* ================= ROUTER & RENDER ================= */
-const VIEWS = ["home", "about", "join", "store", "alumni", "alumni-post", "admin", "donate"];
+const VIEWS = ["home", "about", "join", "store", "alumni", "alumni-post", "admin", "staff", "donate"];
 function route() {
   let v = (location.hash || "#home").slice(1); if (!VIEWS.includes(v)) v = "home";
   document.querySelectorAll("[data-view]").forEach(s => s.hidden = s.dataset.view !== v);
@@ -386,8 +414,8 @@ function route() {
 function renderAll() {
   const member = role !== "visitor", staff = isStaff();
   $("#protoBar").hidden = mode !== "demo";
-  $("#acctBtn").hidden = mode !== "firebase";
-  $("#acctBtn").textContent = user ? "Sign out" : "Staff sign-in";
+  $("#acctBtn").hidden = !(mode === "firebase" && user && staffChecked && staff);
+  $("#acctBtn").textContent = "Sign out";
   $("#adminLink").hidden = !staff;
   $("#gate").hidden = member; $("#feedWrap").hidden = !member; $("#newPostBtn").hidden = !staff;
   $("#notStaff").hidden = staff; $("#composer").hidden = !staff;
@@ -397,6 +425,7 @@ function renderAll() {
   if (staff && mode === "firebase" && user) n.append(el("div", { class: "muted", style: "font-size:.88rem;margin-bottom:14px", text: "Signed in as " + user.email }));
   $("#memberLine").textContent = staff ? "Club staff — full access, can post" : (tier || "Tom Cat") + " member · renews annually";
   if (!member) renderGate();
+  renderStaffLogin();
   renderFeed(); renderHomeLatest(); renderCart(); renderEditBar(); if (staff) renderAdmin();
 }
 window.addEventListener("hashchange", route);
