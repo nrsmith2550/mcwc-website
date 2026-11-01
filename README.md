@@ -1,19 +1,27 @@
-# Mountain Cat Wrestling Club — Website Prototype
+# Mountain Cat Wrestling Club — Website
 
-Clickable prototype for the Mountain Cat Wrestling Club (supporting Pitt-Johnstown wrestling).
+Website for the Mountain Cat Wrestling Club (supporting Pitt-Johnstown wrestling), hosted on GitHub Pages.
 
-**Pages:** Home · About · Join (membership levels) · Member Feed (members only) · New Post (staff only) · Store with cart · Donate
+**Pages:** Home · About · Join (membership levels) · Member Feed (members only) · New Post and Admin (staff only) · Store with cart · Donate
 
-## Status
-This is a static prototype. On GitHub Pages:
-- The Member Feed runs in **demo mode**: sample posts, and new posts appear only in the browser that published them.
-- Membership sign-up and store checkout don't take payments.
-- Use the **Preview as** menu at the top to switch between Visitor, Member and Staff views.
+## Staff posting
+Staff sign in with Google and can publish, edit, pin, draft and delete Member Feed posts.
+They can also add and remove other staff on the Admin page. Posts are stored in Firebase on the free plan.
 
-Going live needs a backend for member logins, dues payments, the shared post feed and store checkout.
+**To turn it on, follow [SETUP.md](SETUP.md).** Until `config.js` has Firebase settings, the site runs in
+**demo mode**: sample posts, a "Preview as" menu, and nothing is saved.
 
-## Placeholders to replace
-- Membership levels 2–6 (names, prices, perks)
-- Mission statement, history, board list, events
-- Store products and prices
-- Logo artwork
+## Files
+| File | What it is |
+|---|---|
+| `index.html` | Page layout and styles |
+| `app.js` | Site behaviour: feed, staff posting, store, cart |
+| `config.js` | Firebase settings and optional membership payment link |
+| `firestore.rules` | Database security rules (paste into Firebase) |
+| `SETUP.md` | One-time Firebase setup steps |
+
+## Not built yet (placeholders)
+- Member logins. The feed's members-only screen stays up; for now only staff can read posts.
+- Membership dues payments and store checkout
+- Membership levels 2–6 (names, prices, perks), mission text, board list, events
+- Store products and prices, logo artwork

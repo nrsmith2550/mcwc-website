@@ -1,0 +1,57 @@
+rules_version = '2';
+
+// Mountain Cat Wrestling Club — Firestore security rules
+// Paste this whole file into Firebase console → Firestore Database → Rules, then click Publish.
+//
+// Who can do what:
+//   • Staff = a signed-in Google account whose email has a document in the `staff` collection.
+//   • Staff can read, create, edit, pin and delete posts, and add/remove other staff.
+//   • Everyone else can't read or write anything (the members-only screen stays up for now).
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null && request.auth.token.email_verified == true;
+    }
+    function myEmail() {
+      return request.auth.token.email.lower();
+    }
+    function isStaff() {
+      return signedIn() && exists(/databases/$(database)/documents/staff/$(myEmail()));
+    }
+    function validPost(d) {
+      return d.keys().hasOnly(['title', 'body', 'category', 'author', 'status', 'pinned',
+                               'createdAt', 'updatedAt', 'createdBy'])
+        && d.title is string && d.title.size() > 0 && d.title.size() <= 140
+        && d.body is string && d.body.size() > 0 && d.body.size() <= 20000
+        && d.category is string && d.category.size() <= 40
+        && d.author is string && d.author.size() <= 80
+        && d.status in ['draft', 'published']
+        && d.pinned is bool
+        && d.updatedAt == request.time;
+    }
+
+    // Staff list. Document ID = the person's Google email, lowercase.
+    match /staff/{email} {
+      allow get: if signedIn() && (email == myEmail() || isStaff());
+      allow list: if isStaff();
+      allow create, update: if isStaff()
+        && email == email.lower()
+        && request.resource.data.keys().hasOnly(['name', 'addedBy', 'addedAt']);
+      allow delete: if isStaff();
+    }
+
+    // Member Feed posts.
+    match /posts/{postId} {
+      allow read: if isStaff();
+      allow create: if isStaff() && validPost(request.resource.data)
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.createdBy == myEmail();
+      allow update: if isStaff() && validPost(request.resource.data)
+        && request.resource.data.createdAt == resource.data.createdAt
+        && request.resource.data.createdBy == resource.data.createdBy;
+      allow delete: if isStaff();
+    }
+  }
+}
